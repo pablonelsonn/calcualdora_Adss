@@ -2,8 +2,8 @@ using System.Globalization;
 
 namespace calculadora
 {
-    public partial class Form1 : Form
-    {
+public partial class Form1 : Form
+{
         decimal valor1 = 0, valor2 = 0;
         string operacao = "";
 
@@ -85,5 +85,185 @@ namespace calculadora
         {
             AdicionarNumero("9");
         }
+    
+
+ // VÍRGULA
+private void btnVirgula_Click(object sender, EventArgs e)
+        {
+            // Se acabou de calcular, começa um novo número
+            if (novoCalculo)
+            {
+                txtResultado.Text = "";
+                novoCalculo = false;
+            }
+
+            // Não permite duas vírgulas
+            if (!txtResultado.Text.Contains(","))
+            {
+
+                // Se clicar na vírgula sem nenhum número,
+                // começa com 0,
+
+                if (txtResultado.Text == "")
+                {
+                    txtResultado.Text = "0,";
+                }
+
+                else
+                {
+                    txtResultado.Text += ",";
+                }
+
+            }
+        }
+
+
+        // RETROCEDER
+        private void btnRetroceder_Click(object sender, EventArgs e)
+        {
+            if (txtResultado.Text.Length > 0)
+            {
+                txtResultado.Text =
+                   txtResultado.Text.Remove(txtResultado.Text.Length - 1);
+            }
+        }
+
+        // OPERAÇÕES
+        private void btnAdicao_Click(object sender, EventArgs e)
+        {
+            if (txtResultado.Text != "")
+            {
+                valor1 = decimal.Parse(txtResultado.Text, ptBR);
+
+                txtResultado.Text = "";
+
+                operacao = "SOMA";
+
+                lblOperacao.Text = "+";
+
+                novoCalculo = false;
+            }
+        }
+
+        private void btnSubtracao_Click(object sender, EventArgs e)
+        {
+            if (txtResultado.Text != "")
+            {
+                valor1 = decimal.Parse(txtResultado.Text, ptBR);
+
+                txtResultado.Text = "";
+
+                operacao = "SUB";
+
+                lblOperacao.Text = "-";
+
+                novoCalculo = false;
+            }
+        }
+
+        private void btnMultiplicacao_Click(object sender, EventArgs e)
+        {
+            if (txtResultado.Text != "")
+            {
+                valor1 = decimal.Parse(txtResultado.Text, ptBR);
+
+                txtResultado.Text = "";
+
+                operacao = "MULT";
+
+                lblOperacao.Text = "*";
+
+                novoCalculo = false;
+            }
+        }
+
+
+        private void btnDivisao_Click(object sender, EventArgs e)
+        {
+            if (txtResultado.Text != "")
+            {
+                valor1 = decimal.Parse(txtResultado.Text, ptBR);
+
+                txtResultado.Text = "";
+
+                operacao = "DIV";
+
+                lblOperacao.Text = "/";
+
+                novoCalculo = false;
+            }
+        }
+
+        // IGUAL
+        private void btnIgual_Click(object sender, EventArgs e)
+        {
+            if (txtResultado.Text != "" && operacao != "")
+            {
+                valor2 = decimal.Parse(txtResultado.Text, ptBR);
+
+                decimal resultado = 0;
+
+                if (operacao == "SOMA")
+                {
+                    resultado = valor1 + valor2;
+                }
+                else if (operacao == "SUB")
+                {
+                    resultado = valor1 - valor2;
+                }
+                else if (operacao == "MULT")
+                {
+                    resultado = valor1 * valor2;
+                }
+                else if (operacao == "DIV")
+                {
+                    // Impede divisão por zero
+                    if (valor2 == 0)
+                    {
+                        MessageBox.Show(
+                        "Não é possível dividir por zero.",
+                        "Erro",
+                        MessageBoxButtons.OK,
+                        MessageBoxIcon.Error
+                       );
+                        return;
+                    }
+
+                    resultado = valor1 / valor2;
+                }
+
+                // Mostra o resultado usando a cultura brasileira
+                txtResultado.Text = resultado.ToString(ptBR);
+
+                // Limpa a operação exibida
+                lblOperacao.Text = "";
+
+                // Indica que acabamos de calcular
+                novoCalculo = true;
+            }
+        }
+
+        // LIMPAR TUDO - C
+        private void btnLimpar_Click(object sender, EventArgs e)
+        {
+            txtResultado.Text = "";
+
+            valor1 = 0;
+            valor2 = 0;
+
+            operacao = "";
+
+            lblOperacao.Text = "";
+
+            novoCalculo = false;
+        }
+
+        // LIMPAR ENTRADA - CE
+        private void btnCE_Click(object sender, EventArgs e)
+        {
+            txtResultado.Text = "";
+            novoCalculo = false;
+        }  
     }
 }
+
